@@ -1,0 +1,38 @@
+{
+  "id": "wonderguard-3d",
+  "name": "Wonderguard 3D",
+  "tagline": "Build the toybox wall. Hold the line.",
+  "description": "A portrait-first 3D toybox tower defense built in Godot 4 and exported to the web. Wonderguard 3D turns a tabletop fantasy kingdom into a battlefield: 1,000 levels across 20 kingdoms, 26 tower families with three tiers and two ultimate evolutions each, 48 enemy archetypes and 20 three-phase bosses. Every level is generated from a seed — a winding road, build sockets, waves and a budget — and all one thousand are validated headlessly in CI. Combat runs on a fixed 60 Hz step, so targeting, damage and status effects resolve identically on every device. Your crowns, stars and trophies sync through the Little Joy Arcade account.",
+  "categories": ["Strategy", "Arcade"],
+  "runtime": "Godot 4",
+  "version": "1.0.0",
+  "updated": "2026-11-07",
+  "status": "live",
+  "featured": true,
+  "playUrl": "https://jd4rider.github.io/wonderguard-3d/",
+  "siteUrl": "https://jd4rider.github.io/wonderguard-3d/",
+  "repoUrl": "https://github.com/jd4rider/wonderguard-3d",
+  "downloads": [],
+  "cover": { "from": "#7fe4c8", "to": "#0b1220", "emoji": "🏰" },
+  "highlights": [
+    "1,000 campaign levels over 20 kingdoms, each board generated from a seed and validated headless in CI",
+    "26 tower families in six categories, with three tiers and two genuinely different ultimate evolutions each",
+    "48 enemy archetypes — healers, summoners, splitters, shielded carriers, phasing constructs and flyers",
+    "20 bosses with three escalating phases, from the Mosswood Giant to the Infinity Sovereign",
+    "A living 3D journey map: cleared roads light up as the expedition advances",
+    "Fixed 60 Hz simulation with pooled projectiles, so targeting and damage are deterministic",
+    "Blender-authored modular toy kit: bases, turrets, castles, props and twelve enemy bodies",
+    "Seven ways to play: campaign, endless siege, survival, boss rush, daily defense, sandbox and fortress",
+    "Little Joy Arcade account, cloud saves and 100 trophies, with a local save that always works offline",
+    "Portrait-locked presentation with large touch targets and mouse/keyboard support"
+  ],
+  "howToPlay": [
+    "Tap a tower card at the bottom, then tap a glowing socket beside the road to build it.",
+    "Tap any built tower to upgrade it, choose an ultimate path, change its targeting or sell it.",
+    "Wave 1 starts on its own; call later waves early for bonus gold, but only when your wall is ready.",
+    "Enemies that reach the castle cost lives. Clear every wave to earn stars: take no damage for three.",
+    "Every tenth level is a boss. Phase changes make it faster and better armoured, so plan for them."
+  ],
+  "levels": "1,000 levels · 20 kingdoms · 26 towers · 48 enemies · 20 bosses + six extra modes",
+  "saveKey": "wonderguard-3d-save-v1"
+}
