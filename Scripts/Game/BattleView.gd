@@ -9,6 +9,18 @@ extends Node3D
 
 const TILE := Campaign.CELL
 
+const CAMERA_POS := Vector3(0, 15.0, 8.8)
+## Slightly south of the board's middle so the diorama sits in the band between
+## the top bar and the tower shelf instead of drifting under either one.
+const CAMERA_LOOK := Vector3(0, 0, 0.45)
+## Six 0.9-unit columns are 5.4 wide; at 5.9 the board keeps a hair of table on
+## each side, so an unusually tall phone never crops the outer lanes.
+const CAMERA_WIDTH_SPAN := 5.9
+## Fitting the board's height fills the play band on any portrait phone; this
+## floor is what keeps the near and far rows clear of the HUD and the shelf.
+const CAMERA_MIN := 12.6
+const CAMERA_MAX := 14.6
+
 var sim: Battlefield
 var level: Dictionary = {}
 
@@ -295,13 +307,10 @@ func _build_castle() -> void:
 func _build_camera() -> void:
 	camera = Camera3D.new()
 	camera.projection = Camera3D.PROJECTION_ORTHOGONAL
-	# Frame the whole eleven-row board inside the band between the top bar and
-	# the tower shelf: at 14.6 units the projected board (about 9.1 units) fills
-	# roughly 62% of a portrait screen, and the look target sits south of the
-	# board so the near edge is not hidden behind the build bar.
-	camera.size = 14.2
-	camera.position = Vector3(0, 15.0, 8.8)
-	camera.look_at_from_position(camera.position, Vector3(0, 0, 1.0), Vector3.UP)
+	# The look target sits south of the board so the near edge is not hidden
+	# behind the build bar; the orthographic height is fitted live below.
+	camera.position = CAMERA_POS
+	camera.look_at_from_position(CAMERA_POS, CAMERA_LOOK, Vector3.UP)
 	camera.near = 0.1
 	camera.far = 60.0
 	add_child(camera)
@@ -309,6 +318,25 @@ func _build_camera() -> void:
 	# viewport: claim it explicitly or the board is drawn through the map's
 	# camera, which sits inches from island one.
 	camera.make_current()
+	_frame_camera()
+	if not get_viewport().size_changed.is_connected(_frame_camera):
+		get_viewport().size_changed.connect(_frame_camera)
+
+
+## Portrait screens are tall, so the board's width runs out first: the
+## orthographic height is derived from the live aspect ratio so the diorama
+## spans nearly the whole screen instead of floating in the middle of it. The
+## floor keeps a squat portrait window from pushing the far row under the HUD.
+func _frame_camera() -> void:
+	if camera == null:
+		return
+	var view := get_viewport().get_visible_rect().size
+	if view.x < 1.0 or view.y < 1.0:
+		return
+	var aspect := view.x / view.y
+	camera.size = clampf(maxf(CAMERA_MIN, CAMERA_WIDTH_SPAN / maxf(0.2, aspect)), CAMERA_MIN, CAMERA_MAX)
+	camera.position = CAMERA_POS
+	camera.look_at_from_position(CAMERA_POS, CAMERA_LOOK, Vector3.UP)
 
 
 func _build_range_ring() -> void:
@@ -749,8 +777,8 @@ func _update_shake(delta: float) -> void:
 	var offset := Vector3.ZERO
 	if enabled and _shake > 0.001:
 		offset = Vector3(randf_range(-1, 1), randf_range(-0.6, 0.6), randf_range(-1, 1)) * _shake * 0.18
-	camera.position = Vector3(0, 15.0, 8.8) + offset
-	camera.look_at(Vector3(0, 0, 1.0) + offset * 0.5, Vector3.UP)
+	camera.position = CAMERA_POS + offset
+	camera.look_at(CAMERA_LOOK + offset * 0.5, Vector3.UP)
 
 
 func focus_on(point: Vector3) -> void:

@@ -19,10 +19,10 @@ body {
   display: block;
   width: 100%;
   height: 100%;
-  /* Locked portrait: on a wide window the board becomes a 9:16 column
-     instead of stretching into a landscape playfield. */
-  max-width: calc(100vh * 9 / 16);
-  margin: 0 auto;
+  /* Full bleed: the engine stretches with "expand", so the diorama and its
+     HUD reach the edges of whatever phone the game loads on. Landscape
+     windows are covered by the rotate gate in arcade-bridge.js. */
+  margin: 0;
   outline: none;
   touch-action: none;
 }

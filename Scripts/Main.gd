@@ -597,12 +597,19 @@ func _show_battle_hud() -> void:
 	_panel = Ui.column(6)
 	_panel_holder.add_child(_panel)
 
+	# A fixed-height frame guarantees the shelf its full row height; sizing the
+	# scroll view directly let the column squeeze it until the cards were cut in
+	# half by the call-wave bar.
+	var shelf_frame := Control.new()
+	shelf_frame.custom_minimum_size.y = 110
+	shelf_frame.size_flags_vertical = Control.SIZE_SHRINK_END
+	shelf_frame.mouse_filter = Control.MOUSE_FILTER_PASS
+	outer.add_child(shelf_frame)
 	_shelf_scroll = Ui.scroll()
+	_shelf_scroll.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_shelf_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
 	_shelf_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	_shelf_scroll.custom_minimum_size.y = 96
-	_shelf_scroll.size_flags_vertical = Control.SIZE_SHRINK_END
-	outer.add_child(_shelf_scroll)
+	shelf_frame.add_child(_shelf_scroll)
 	_shelf = Ui.row(8)
 	_shelf_scroll.add_child(_shelf)
 

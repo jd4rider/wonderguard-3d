@@ -96,6 +96,12 @@ if (layout.canvas && layout.canvas.h < layout.window.h * 0.9) {
 if (layout.canvas && layout.canvas.w > layout.window.w + 1) {
   failures.push(`phone: canvas is ${layout.canvas.w}px wide in a ${layout.window.w}px window`)
 }
+if (layout.canvas && layout.canvas.w < layout.window.w * 0.99) {
+  failures.push(`phone: canvas is ${layout.canvas.w}px wide in a ${layout.window.w}px window`)
+}
+if (layout.canvas && layout.canvas.h < layout.window.h * 0.99) {
+  failures.push(`phone: canvas is ${layout.canvas.h}px tall in a ${layout.window.h}px window`)
+}
 if (layout.gate) failures.push('phone: the portrait gate must be hidden in portrait')
 
 let state = await waitForState(page, (s) => s.screen === 'title', 20000)
@@ -139,10 +145,19 @@ await widePage.waitForTimeout(6000)
 const wideLayout = await widePage.evaluate(() => {
   const canvas = document.querySelector('#canvas')
   const rect = canvas.getBoundingClientRect()
-  return { w: Math.round(rect.width), h: Math.round(rect.height) }
+  const gate = document.querySelector('#lja-rotate')
+  return {
+    w: Math.round(rect.width),
+    h: Math.round(rect.height),
+    gate: gate ? getComputedStyle(gate).display !== 'none' : false,
+    window: { w: innerWidth, h: innerHeight },
+  }
 })
 console.log('desktop layout', JSON.stringify(wideLayout))
-if (wideLayout.h <= wideLayout.w) failures.push('desktop: a landscape window must keep a portrait board')
+if (!wideLayout.gate) failures.push('desktop: a landscape window must show the portrait gate')
+if (wideLayout.w < wideLayout.window.w * 0.99 || wideLayout.h < wideLayout.window.h * 0.99) {
+  failures.push(`desktop: canvas ${wideLayout.w}x${wideLayout.h} must fill the window`)
+}
 await widePage.screenshot({ path: '/tmp/wg-shots/desktop.png' })
 
 await browser.close()

@@ -52,13 +52,16 @@ python3 -m http.server 4176 --directory web/play
 node Tools/smoke.mjs http://127.0.0.1:4176/
 ```
 
-`Tools/smoke.mjs` drives the real exported build in Chromium: portrait fill,
-bridge presence, a battle started through the debug hook, a tower actually
-built, a wave called and fast-forwarded, plus a landscape window that must still
-letterbox a portrait board. It writes screenshots to `/tmp/wg-shots`.
+`Tools/smoke.mjs` drives the real exported build in Chromium: the canvas must
+fill the phone window edge to edge, bridge presence, a battle started through
+the debug hook, a tower actually built, a wave called and fast-forwarded, plus a
+landscape window that must show the rotate gate. It writes screenshots to
+`/tmp/wg-shots`.
 
 The export is single-threaded, Compatibility renderer, WebGL 2 — no
-cross-origin-isolation headers needed.
+cross-origin-isolation headers needed. The stretch mode is `canvas_items` with
+`expand`, and the battle camera fits itself to the live viewport aspect, so the
+diorama reaches the screen edges on tall phones instead of sitting in 9:16 bars.
 
 ## Architecture
 

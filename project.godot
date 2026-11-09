@@ -27,9 +27,10 @@ window/size/viewport_height=1280
 window/size/window_width_override=430
 window/size/window_height_override=764
 window/stretch/mode="canvas_items"
-; Portrait is the only supported presentation: on a landscape desktop the
-; 9:16 board is letterboxed rather than stretched.
-window/stretch/aspect="keep"
+; "expand" lets the 3D view fill the whole phone screen instead of sitting in
+; black 9:16 bars. The HUD is anchored, so the extra height lands between the
+; top bar and the tower shelf; landscape windows are covered by the rotate gate.
+window/stretch/aspect="expand"
 window/size/handheld/orientation=1
 window/size/resizable=true
 
