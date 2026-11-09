@@ -5,10 +5,13 @@ on:
     branches: [main]
   workflow_dispatch:
 
+# The site is published from the gh-pages branch rather than through
+# actions/deploy-pages: artifact deployments for this repo sat in
+# "syncing_files" and hit the 10 minute timeout on every attempt, while the
+# build itself passed. A branch push goes through the Pages branch builder,
+# which needs nothing but write access to the repo.
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
   group: pages
@@ -49,18 +52,15 @@ jobs:
       - name: Add the arcade shell and portrait framing
         run: python3 Tools/patch_web.py
 
-      - uses: actions/configure-pages@v5
-
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: web/play
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Publish the Web build to the gh-pages branch
+        run: |
+          set -euo pipefail
+          cd web/play
+          git init -q -b gh-pages
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Publish ${GITHUB_SHA::7}"
+          git push -f "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" gh-pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

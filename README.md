@@ -98,6 +98,13 @@ the SDK is absent the game is fully playable offline and says so in the menu.
 runs the headless suite, exports, patches the shell and publishes `web/play` to
 GitHub Pages. Nothing is published if the suite fails.
 
+The build is pushed to the `gh-pages` branch, and Pages is set to serve that
+branch. `actions/deploy-pages` was the original path, but its artifact uploads
+for this repo waited in `syncing_files` and hit the ten-minute timeout on every
+attempt while the build itself passed; the branch builder publishes in well
+under a minute. The site URL is unchanged:
+<https://jd4rider.github.io/wonderguard-3d/>.
+
 ## Known limitations
 
 - Automated tests are structural and simulated; they do not prove a level is
