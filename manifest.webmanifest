@@ -1,0 +1,11 @@
+{
+  "name": "Wonderguard 3D",
+  "short_name": "Wonderguard",
+  "description": "A portrait-first 3D toybox tower defense with 1,000 levels, 20 kingdoms and 24 towers. A Little Joy Arcade original.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#05080f",
+  "theme_color": "#0b1220"
+}
