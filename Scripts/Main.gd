@@ -1,4 +1,5 @@
 extends Node
+const TipJarLink := preload("res://Scripts/Core/TipJar.gd")
 ## App shell: title, journey map, level select, battle HUD, results and codex.
 ## The rules live in `Battlefield` and the diorama in `BattleView`; this script
 ## owns navigation, touch input, presentation of state and persistence.
@@ -1012,6 +1013,8 @@ func _show_result(won: bool) -> void:
 		else:
 			_show_title()
 	col.add_child(Ui.ghost("Back to the map" if campaign else "Back to the title", leave_action, 56, 17))
+	# Quiet support link: results card only, under the actions.
+	col.add_child(Ui.ghost("☕ Buy me a coffee", TipJarLink.open, 40, 13))
 
 
 func _stat(grid: GridContainer, key: String, value: String) -> void:
